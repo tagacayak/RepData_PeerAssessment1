@@ -31,9 +31,9 @@ dailyMean <- mean(stepsPerDay$steps)
 dailyMedian <- median(stepsPerDay$steps)
 ```
 
-The mean total number of steps taken per day is `r dailyMean`
+The mean total number of steps taken per day is **`r dailyMean`**
 
-The median total number of steps taken per day is `r dailyMedian`
+The median total number of steps taken per day is **`r dailyMedian`**
 
 #What is the average daily activity pattern?
 
@@ -50,16 +50,57 @@ plot(avgStepsPerInterval, type="l")
 maxInterval <- which.max(avgStepsPerInterval$interval)
 ```
 
+
 The interval which contains the maximum number of steps is interval `r maxInterval`.
 
 #Imputing missing values
 
-```{r step4}
-plot(cars)
+1. Calculate and report the total number of missing values in the dataset (i.e. the total number of rows with NAs)
+
+```{r step4.1}
+missingValues <- nrow(activityData[!complete.cases(activityData),])
 ```
 
-#Are there differences in activity patterns between weekdays and weekends?
+There are **`r missingValues`** missing values.
 
-```{r step5}
-plot(cars)
+
+
+2. Devise a strategy for filling in all of the missing values in the dataset. The strategy does not need to be sophisticated. For example, you could use the mean/median for that day, or the mean for that 5-minute interval, etc.
+
+**I will assume that zero steps were taken where there are missing values and code NA to 0**
+
+3. Create a new dataset that is equal to the original dataset but with the missing data filled in.
+
+```{r step4.3}
+naMeanData <- activityData
+naMeanData[is.na(naMeanData)] <- 0
 ```
+
+4. Make a histogram of the total number of steps taken each day.
+
+```{r step4.4}
+stepsPerDayNoNA <- aggregate(steps ~ date, data=naMeanData, FUN=sum)
+hist(stepsPerDayNoNA$steps, main = "Histogram of Total Steps Per Day w Imputed Values", xlab = "steps per day")
+```
+
+5. Calculate and report the mean and median total number of steps taken per day. 
+
+```{r step4.5}
+dailyMeanImp <- mean(stepsPerDayNoNA$steps)
+dailyMedianImp <- median(stepsPerDayNoNA$steps)
+```
+
+The mean total number of steps taken per day with imputed values is **`r dailyMeanImp`**
+
+The median total number of steps taken per day with imputed values is **`r dailyMedianImp`**
+
+6. Do these values differ from the estimates from the first part of the assignment? What is the impact of imputing missing data on the estimates of the total daily number of steps?
+
+The mean steps w/o imputing is **`r dailyMean`**
+The mean steps with imputing is **`r dailyMeanImp`**
+
+
+The median steps w/o imputing is **`r dailyMedian`**
+The median steps with imuting is **`r dailyMedianImp`**
+
+How you impute the NA values changes the estimates on the total daily number of steps and you must take care in doing so.

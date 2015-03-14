@@ -71,21 +71,21 @@ There are **`r missingValues`** missing values.
 
 3. Create a new dataset that is equal to the original dataset but with the missing data filled in.
 
-```{r step4.3}
+```{r step4.2}
 naMeanData <- activityData
 naMeanData[is.na(naMeanData)] <- 0
 ```
 
 4. Make a histogram of the total number of steps taken each day.
 
-```{r step4.4}
+```{r step4.3}
 stepsPerDayNoNA <- aggregate(steps ~ date, data=naMeanData, FUN=sum)
 hist(stepsPerDayNoNA$steps, main = "Histogram of Total Steps Per Day w Imputed Values", xlab = "steps per day")
 ```
 
 5. Calculate and report the mean and median total number of steps taken per day. 
 
-```{r step4.5}
+```{r step4.4}
 dailyMeanImp <- mean(stepsPerDayNoNA$steps)
 dailyMedianImp <- median(stepsPerDayNoNA$steps)
 ```
@@ -104,3 +104,21 @@ The median steps w/o imputing is **`r dailyMedian`**
 The median steps with imuting is **`r dailyMedianImp`**
 
 How you impute the NA values changes the estimates on the total daily number of steps and you must take care in doing so.
+
+#Are there differences in activity patterns between weekdays and weekends?
+
+1. Create a new factor variable in the dataset with two levels - "weekday" and "weekend" indicating whether a given date is a weekday or weekend day.
+
+```{r step5.1}
+naMeanData$day <- weekdays(as.Date(naMeanData$date))
+naMeanData$dayType <- ifelse(naMeanData$day == "Saturday" | naMeanData$day == "Sunday", 
+                             "Weekend", "Weekday")
+```
+
+2. Make a panel plot containing a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis). See the README file in the GitHub repository to see an example of what this plot should look like using simulated data.
+
+```{r step5.2}
+
+avgStepsPerIntervalDayType <- aggregate(steps ~ interval, data=naMeanData, mean)
+plot(avgStepsPerIntervalDayType, type="l")
+```

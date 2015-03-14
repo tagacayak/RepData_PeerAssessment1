@@ -1,25 +1,66 @@
 ---
 title: "Reproducible Research: Peer Assessment 1"
-output: 
-  html_document:
-    keep_md: true
+output: html_document
 ---
 
+by Tara Lutman Agacayak
 
-## Loading and preprocessing the data
+github repo with RMarkdown source code: https://github.com/tagacayak/RepData_PeerAssessment1
 
+#Add code to download file here for better reproducibility
 
+dowonload.file()
 
-## What is mean total number of steps taken per day?
+#Loading and preprocessing the data
 
+```{r step1}
+## Unzip & read file
+unzip("activity.zip")
+activityData <- read.csv("activity.csv")
+```
 
+#What is mean total number of steps taken per day?
 
-## What is the average daily activity pattern?
+1. Make a histogram of the total steps taken per day.
 
+```{r step2.1}
+stepsPerDay <- aggregate(steps ~ date, data=activityData, FUN=sum)
+hist(stepsPerDay$steps, main = "Histogram of Total Steps Per Day", xlab = "steps per day")
+```
 
+2. Calculate and report the **mean** and **median** total number of steps taken per day
 
-## Imputing missing values
+```{r step2.2}
+dailyMean <- mean(stepsPerDay$steps)
+dailyMedian <- median(stepsPerDay$steps)
+```
 
+The mean total number of steps taken per day is `r dailyMean`
 
+The median total number of steps taken per day is `r dailyMedian`
 
-## Are there differences in activity patterns between weekdays and weekends?
+#What is the average daily activity pattern?
+
+1. Make a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all days (y-axis)
+
+```{r step3.1}
+plot(cars)
+```
+
+2. Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
+
+```{r step3.2}
+plot(cars)
+```
+
+#Imputing missing values
+
+```{r step4}
+plot(cars)
+```
+
+#Are there differences in activity patterns between weekdays and weekends?
+
+```{r step5}
+plot(cars)
+```

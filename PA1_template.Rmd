@@ -7,15 +7,11 @@ by Tara Lutman Agacayak
 
 github repo with RMarkdown source code: https://github.com/tagacayak/RepData_PeerAssessment1
 
-#Add code to download file here for better reproducibility
-
-dowonload.file()
-
 #Loading and preprocessing the data
 
 ```{r step1}
 ## Unzip & read file
-unzip("activity.zip")
+
 activityData <- read.csv("activity.csv")
 ```
 
@@ -44,14 +40,17 @@ The median total number of steps taken per day is `r dailyMedian`
 1. Make a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all days (y-axis)
 
 ```{r step3.1}
-plot(cars)
+avgStepsPerInterval <- aggregate(steps ~ interval, data=activityData, mean)
+plot(avgStepsPerInterval, type="l")
 ```
 
 2. Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
 
 ```{r step3.2}
-plot(cars)
+maxInterval <- which.max(avgStepsPerInterval$interval)
 ```
+
+The interval which contains the maximum number of steps is interval `r maxInterval`.
 
 #Imputing missing values
 
